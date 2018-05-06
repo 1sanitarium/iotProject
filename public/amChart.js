@@ -43,7 +43,7 @@ var chart = AmCharts.makeChart( "chartdiv", {
     "categoryField": "timestamp",
     "categoryAxis": {
         "parseDates": true,
-        "minPeriod": "ss",
+        "minPeriod": "mm",
         "dashLength": 1,
         "gridAlpha": 0.15,
         "axisColor": "#DADADA"
