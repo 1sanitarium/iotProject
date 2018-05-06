@@ -1,117 +1,91 @@
-$(function() {
-let selectedGraph = "temp";
+var currentData = [];
+var data = [];
+var selectedGraph = "temp";
 
-const data = [];
+$(function() {
+let dateOffset = (24*60*60*1000) * 1; //5 days
+let myDate = new Date();
+myDate.setTime(myDate.getTime() - dateOffset);
+
+
+const generateChartData = () => {
+    currentData = [];
+    data.forEach((d)=>{
+        currentData.push({
+            timestamp: d.timestamp,
+            value: d[selectedGraph]
+        })
+    });
+    currentData = _.sortBy(currentData, o => o.timestamp);
+    return _.uniqBy(currentData, 'timestamp');
+};
 
 
 
 $(".navbar li").click((evt) => {
     evt.preventDefault();
     evt.stopPropagation();
+    const target = $(evt.currentTarget);
     $(".navbar li").removeClass("active");
-    $(this).addClass("active");
-    selectedGraph = $(this).attr("data-m");
+    target.addClass("active");
+    selectedGraph = target.attr("data-m");
+    update();
 });
 
-var chart = AmCharts.makeChart("chartdiv", {
+var chart = AmCharts.makeChart( "chartdiv", {
     "type": "serial",
     "theme": "dark",
-    "marginRight": 40,
-    "marginLeft": 40,
-    "autoMarginOffset": 20,
-    "mouseWheelZoomEnabled":true,
-    "dataDateFormat": "YYYY-MM-DD",
-    "valueAxes": [{
-        "id": "v1",
-        "axisAlpha": 0,
-        "position": "left",
-        "ignoreAxisWidth":true
-    }],
-    "balloon": {
-        "borderThickness": 1,
-        "shadowAlpha": 0
+    "zoomOutButton": {
+        "backgroundColor": '#000000',
+        "backgroundAlpha": 0.15
     },
-    "graphs": [{
-        "id": "g1",
-        "balloon":{
-          "drop":true,
-          "adjustBorderColor":false,
-          "color":"#ffffff"
-        },
-        "bullet": "round",
-        "bulletBorderAlpha": 1,
-        "bulletColor": "#FFFFFF",
-        "bulletSize": 5,
-        "hideBulletsCount": 50,
-        "lineThickness": 2,
-        "title": "red line",
-        "useLineColorForBulletBorder": true,
-        "valueField": "value",
-        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-    }],
-    "chartScrollbar": {
-        "graph": "g1",
-        "oppositeAxis":false,
-        "offset":30,
-        "scrollbarHeight": 80,
-        "backgroundAlpha": 0,
-        "selectedBackgroundAlpha": 0.1,
-        "selectedBackgroundColor": "#888888",
-        "graphFillAlpha": 0,
-        "graphLineAlpha": 0.5,
-        "selectedGraphFillAlpha": 0,
-        "selectedGraphLineAlpha": 1,
-        "autoGridCount":true,
-        "color":"#AAAAAA"
-    },
-    "chartCursor": {
-        "pan": true,
-        "valueLineEnabled": true,
-        "valueLineBalloonEnabled": true,
-        "cursorAlpha":1,
-        "cursorColor":"#258cbb",
-        "limitToGraph":"g1",
-        "valueLineAlpha":0.2,
-        "valueZoomable":true
-    },
-    "valueScrollbar":{
-      "oppositeAxis":false,
-      "offset":50,
-      "scrollbarHeight":10
-    },
-    "categoryField": "date",
+    "dataProvider": [],
+    "categoryField": "timestamp",
     "categoryAxis": {
         "parseDates": true,
+        "minPeriod": "ss",
         "dashLength": 1,
-        "minorGridEnabled": true
+        "gridAlpha": 0.15,
+        "axisColor": "#DADADA"
     },
-    "export": {
-        "enabled": true
+    "graphs": [ {
+        "id": "g1",
+        "valueField": "value",
+        "bullet": "round",
+        "bulletBorderColor": "#FFFFFF",
+        "bulletBorderThickness": 2,
+        "lineThickness": 2,
+        "lineColor": "#b5030d",
+        "negativeLineColor": "#0352b5",
+        "hideBulletsCount": 50
+    } ],
+    "chartCursor": {
+        "cursorPosition": "mouse"
     },
-    "dataProvider": [{
-        "date": "2012-07-27",
-        "value": 13
-    }, {
-        "date": "2012-07-28",
-        "value": 11
-    }, {
-        "date": "2012-07-29",
-        "value": 15
-    }, {
-        "date": "2012-07-30",
-        "value": 16
-    }, {
-        "date": "2012-07-31",
-        "value": 18
-    }]
-});
+    "chartScrollbar": {
+        "graph": "g1",
+        "scrollbarHeight": 40,
+        "color": "#FFFFFF",
+        "autoGridCount": true
+    }
+} );
 
-chart.addListener("rendered", zoomChart);
+const update = () =>{
+    $.get( "/data/" + myDate.getTime(), function( d ) {
+        console.log(d);
+        //chart.dataProvider.shift();
+        data.push( ...d);
+        //chart.dataProvider.splice(0, this.length);
+        chart.dataProvider=generateChartData();
+        chart.validateData();
+        myDate = new Date();
+    });
+};
 
-zoomChart();
+setInterval( function() {
+    update();
 
-function zoomChart() {
-    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
-}
+}, 30000 );
 
+update();
 });
