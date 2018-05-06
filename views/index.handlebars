@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <title>Metro IoT</title>
 
-  <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
-  <script src="http://www.amcharts.com/lib/3/serial.js"></script>
-  <script src="http://www.amcharts.com/lib/3/themes/light.js"></script>
+  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+  <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
   <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
   <link rel="stylesheet" href="/static/main.css" type="text/css" media="all" />
   <script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
@@ -18,7 +18,7 @@
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/slate/bootstrap.min.css" rel="stylesheet" integrity="sha384-T5/MPhcu5PtijW3XQzMbwUJshIZS5VzRn+lpMXRN8EnZpxBc8yDYiGkTj7pTWBXQ" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
   <script src="/static/amChart.js"></script>
 </head>
 <body>
@@ -26,32 +26,33 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="#">
       <i style="font-size: 1.2em" class="fas fa-chart-line"></i>
-       Metro IoT</a>
+       Metro IoT
+    </a>
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav">
-                    <li class="nav-item active" data-m="temp">
-                      <a class="nav-link" href="#">Temperature</a>
-                    <li class="nav-item" data-m="co2">
-                      <a class="nav-link" href="#">eCO2</a>
-                    </li>
-                    <li class="nav-item" data-m="light">
-                      <a class="nav-link" href="#">Light</a>
-                    </li>
-                    <li class="nav-item" data-m="humidity">
-                      <a class="nav-link" href="#">Humidity</a>
-                    </li>
-                    <li class="nav-item" data-m="particles">
+                <li class="nav-item active" data-m="temp">
+                  <a class="nav-link" href="#">Temperature</a>
+                <li class="nav-item" data-m="co2">
+                  <a class="nav-link" href="#">eCO2</a>
+                </li>
+                <li class="nav-item" data-m="light">
+                  <a class="nav-link" href="#">Light</a>
+                </li>
+                <li class="nav-item" data-m="humidity">
+                  <a class="nav-link" href="#">Humidity</a>
+                </li>
+                <li class="nav-item" data-m="particles">
                       <a class="nav-link" href="#">Particles</a>
-                    </li>
-                    <li class="nav-item" data-m="pressure">
+                </li>
+                <li class="nav-item" data-m="pressure">
                       <a class="nav-link" href="#">Pressure</a>
-                    </li>
-                    <li class="nav-item" data-m="vod">
+                </li>
+                <li class="nav-item" data-m="vod">
                       <a class="nav-link" href="#">TVOD</a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
+                </li>
+            </ul>
+        </div>
+</nav>
 
 <div id="chartdiv"></div>
 
