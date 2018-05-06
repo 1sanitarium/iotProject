@@ -30,15 +30,15 @@ app.set('view engine', 'handlebars');
 // Use the built-in express middleware for serving static files from './public'
 app.use('/static', express.static('public'));
 
-app.get('/', (req, res) => {
+app.get('/data/:timestamp', (req, res) => {
+
     const bigquery = new BigQuery({
         projectId: projectId,
     });
 
     const sqlQuery = `SELECT
   *
-  FROM Office.devices_data
-  LIMIT 10`;
+  FROM Office.devices_data`;
 
 // Query options list: https://cloud.google.com/bigquery/docs/reference/v2/jobs/query
     const options = {
@@ -46,25 +46,26 @@ app.get('/', (req, res) => {
         useLegacySql: false, // Use standard SQL syntax for queries.
     };
 
-    let data = ["ss", 1, 2];
-
 // Runs the query
     bigquery
         .query(options)
         .then(results => {
             const rows = results[0];
-            data = [...rows];
-            console.log(rows);
-            console.log(results);
+            const data = [...rows];
+            /*res.render('index', {
+                data: data
+            });*/
+            res.header('Content-Type', 'application/json');
+            res.send(JSON.stringify(data));
         })
         .catch(err => {
             console.error('ERROR:', err);
         });
 
+});
 
-  res.render('index', {
-      data: data
-  });
+app.get('/', (req, res) => {
+    res.render("index");
 });
 
 // Start the server
