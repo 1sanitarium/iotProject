@@ -30,21 +30,11 @@ app.set('view engine', 'handlebars');
 // Use the built-in express middleware for serving static files from './public'
 app.use('/static', express.static('public'));
 
-app.get('/data/:timestamp', (req, res) => {
 
+const getDataFromQuery = (req, res, options) => {
     const bigquery = new BigQuery({
         projectId: projectId,
     });
-
-    const sqlQuery = `SELECT
-  *
-  FROM Office.devices_data`;
-
-// Query options list: https://cloud.google.com/bigquery/docs/reference/v2/jobs/query
-    const options = {
-        query: sqlQuery,
-        useLegacySql: false, // Use standard SQL syntax for queries.
-    };
 
 // Runs the query
     bigquery
@@ -61,6 +51,38 @@ app.get('/data/:timestamp', (req, res) => {
         .catch(err => {
             console.error('ERROR:', err);
         });
+};
+
+app.get('/data', (req, res) => {
+
+    const sqlQuery = `SELECT
+  *
+  FROM Office.devices_data`;
+    const options = {
+        query: sqlQuery,
+        useLegacySql: false, // Use standard SQL syntax for queries.
+    };
+
+    getDataFromQuery(req, res,options);
+
+
+});
+
+app.get('/data/:timestamp', (req, res) => {
+
+    const sqlQuery = `SELECT
+  *
+  FROM Office.devices_data where received_timestamp > "` + req.params.timestamp+'"';
+
+    console.log(sqlQuery);
+
+    const options = {
+        query: sqlQuery,
+        useLegacySql: false, // Use standard SQL syntax for queries.
+    };
+
+    getDataFromQuery(req, res, options);
+
 
 });
 
