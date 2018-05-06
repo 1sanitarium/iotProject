@@ -1,5 +1,3 @@
-import { AmCharts } from AmCharts;
-
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "dark",
