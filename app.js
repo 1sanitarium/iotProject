@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 
     const sqlQuery = `SELECT
   *
-  FROM \`Office.devices_data\`
+  FROM Office.devices_data
   LIMIT 10`;
 
 // Query options list: https://cloud.google.com/bigquery/docs/reference/v2/jobs/query
@@ -54,6 +54,8 @@ app.get('/', (req, res) => {
         .then(results => {
             const rows = results[0];
             data = [...rows];
+            console.log(rows);
+            console.log(results);
         })
         .catch(err => {
             console.error('ERROR:', err);
