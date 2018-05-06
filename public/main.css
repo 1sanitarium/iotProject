@@ -16,6 +16,13 @@ limitations under the License.
 /* [START example] */
 body {
   font-family: Verdana, Helvetica, sans-serif;
-  background-color: #CCCCFF;
+  background-color: #30303d; 
+  color: #fff;
 }
+
+#chartdiv {
+	width	: 100%;
+	height	: 500px;
+}
+
 /* [END example] */
