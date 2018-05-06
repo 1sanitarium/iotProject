@@ -53,7 +53,6 @@ app.get('/', (req, res) => {
         .query(options)
         .then(results => {
             const rows = results[0];
-            printResult(rows);
             data = [...rows];
         })
         .catch(err => {
