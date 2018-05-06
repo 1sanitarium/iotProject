@@ -1,3 +1,18 @@
+$(function() {
+let selectedGraph = "temp";
+
+const data = [];
+
+
+
+$(".navbar li").click((evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    $(".navbar li").removeClass("active");
+    $(this).addClass("active");
+    selectedGraph = $(this).attr("data-m");
+});
+
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "dark",
@@ -98,3 +113,5 @@ zoomChart();
 function zoomChart() {
     chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
 }
+
+});
