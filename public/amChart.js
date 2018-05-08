@@ -12,7 +12,7 @@ const generateChartData = () => {
     currentData = [];
     data.forEach((d)=>{
         currentData.push({
-            timestamp: d.timestamp,
+            timestamp: new Date(d.timestamp * 1),
             value: d[selectedGraph]
         })
     });
